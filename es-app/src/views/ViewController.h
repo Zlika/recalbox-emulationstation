@@ -1,6 +1,7 @@
 #pragma once
 
 #include "views/gamelist/IGameListView.h"
+#include "guis/GuiSplash.h"
 #include "views/SystemView.h"
 
 class SystemData;
@@ -11,7 +12,7 @@ class ViewController : public GuiComponent
 public:
 	static void init(Window* window);
 	static ViewController* get();
-	inline static Window* getWindow(){return sInstance->mWindow;}
+	inline static Window& getWindow(){return sInstance->mWindow;}
 
 	virtual ~ViewController();
 
@@ -48,19 +49,18 @@ public:
 	void update(int deltaTime) override;
 	void render(const Eigen::Affine3f& parentTrans) override;
 
-	enum ViewMode
+	enum class ViewMode
 	{
-		NOTHING,
-		START_SCREEN,
-		SYSTEM_SELECT,
-		GAME_LIST
+		Loading,
+		Systems,
+		GameList
 	};
 
 	struct State
 	{
 		ViewMode viewing;
 
-		inline SystemData* getSystem() const { assert(viewing == GAME_LIST || viewing == SYSTEM_SELECT); return system; }
+		inline SystemData* getSystem() const { assert(viewing == ViewMode::GameList || viewing == ViewMode::Systems); return system; }
 
 	private:
 		friend ViewController;
@@ -96,7 +96,11 @@ private:
 
 	State mState;
 
-    int getFirstSystemIndex();
+  int getFirstSystemIndex();
 
-    Window* mWindow;
+  //! Window reference
+  Window& mWindow;
+
+  //! Loading screen
+  GuiSplash* mSplash;
 };

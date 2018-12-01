@@ -53,6 +53,10 @@ public:
 	
 	void doWake();
 
+	std::shared_ptr<Font> getSmallFont() { return mDefaultFonts[0]; }
+	std::shared_ptr<Font> getMediumFont() { return mDefaultFonts[1]; }
+	std::shared_ptr<Font> getLargeFont() { return mDefaultFonts[2]; }
+
 private:
 	void onSleep();
 	void onWake();

@@ -10,6 +10,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <RootFolders.h>
+#include <guis/GuiSplash.h>
 
 #include "AudioManager.h"
 #include "CommandThread.h"
@@ -346,8 +347,10 @@ int main(int argc, char* argv[])
       LOG(LogInfo) << " ARB_texture_non_power_of_two: "
                    << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING");
 
-      window.renderLoadingScreen();
-    }
+		//window.renderLoadingScreen();
+    window.render();
+  	Renderer::swapBuffers();
+	}
 
     // Initialize audio manager
     VolumeControl::getInstance()->init();
@@ -423,6 +426,9 @@ int main(int argc, char* argv[])
     //dont generate joystick events while we're loading (hopefully fixes "automatically started emulator" bug)
     SDL_JoystickEventState(SDL_DISABLE);
 
+	// preload what we can right away instead of waiting for the user to select it
+	// this makes for no delays when accessing content, but a longer startup time
+	//ViewController::get()->preload();
 
 
     // preload what we can right away instead of waiting for the user to select it
