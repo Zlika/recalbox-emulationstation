@@ -1,42 +1,36 @@
 #pragma once
 
-#include <GuiComponent.h>
-#include <Window.h>
-#include <components/TextComponent.h>
-#include <components/ImageComponent.h>
+#include "GuiComponent.h"
+#include "IProgressBar.h"
+#include "Window.h"
+#include "components/TextComponent.h"
+#include "components/ImageComponent.h"
 
-class GuiSplash : public GuiComponent
+#include <boost/thread.hpp>
+
+class GuiSplash : public GuiComponent, public IProgressBar
 {
   private:
-    Window* mWindow;
+    Window& mWindow;
     ImageComponent mSplash;
     TextComponent mLoading;
 
+    boost::recursive_mutex mCriticalSection;
+    int mProgressBarMaximumValue;
+    int mProgressBarCurrentValue;
+
   public:
-    /*!
-     * Progress bar interface
-     */
-    class IProgressBar
-    {
-      public:
-        virtual ~IProgressBar() {}
-
-        /*!
-         * Set the progress bar maximum value
-         * @param maxvalue Maximum value (included)
-         */
-        virtual void serMaximum(int maxvalue) = 0;
-        /*!
-         * Set progress bar current value
-         * @param value Current value, from 0 to maxvalue (included).
-         */
-        virtual void setProgression(int value) = 0;
-    };
-
-    GuiSplash(Window* window);
+    explicit GuiSplash(Window& window);
 
     /*
-     * GuiComponent
+     * IGuiSplashProgressBar Implementation
+     */
+
+    void setMaximum(int maxvalue) override;
+    void setProgression(int value) override;
+
+    /*
+     * GuiComponent overrides
      */
 
     void render(const Eigen::Affine3f &parentTrans) override;

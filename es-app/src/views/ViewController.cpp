@@ -288,7 +288,7 @@ void ViewController::launch(FileData* game, Eigen::Vector3f center, std::string 
       game->getSystem()->launchGame(&mWindow, game, netplay, core, ip, port);
       mCamera = origCamera;
       backAnimation([this] { mLockInput = false; });
-      this->onFileChanged(game, FILE_RUN);
+      this->onFileChanged(game, FileChangeType::Run);
     };
   };
 
@@ -416,7 +416,7 @@ void ViewController::render(const Eigen::Affine3f& parentTrans)
     case ViewMode::Loading:
     {
       if (mSplash == nullptr)
-        mSplash = new GuiSplash(&mWindow);
+        mSplash = new GuiSplash(mWindow);
       mSplash->render(trans);
       break;
     }
@@ -504,20 +504,19 @@ void ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 	}
 	else
 	{
-    Window* window= mWindow;
     goToStart();
-		window->renderShutdownScreen();
+    mWindow.renderShutdownScreen();
 		delete ViewController::get();
 		SystemData::deleteSystems();
-		SystemData::loadConfig();
+		SystemData::loadConfig(nullptr);
 		GuiComponent *gui;
 		while ((gui = window->peekGui()) != nullptr)
 		{
-			window->removeGui(gui);
+      mWindow.removeGui(gui);
 		}
-		ViewController::init(window);
+		ViewController::init(&mWindow);
 		ViewController::get()->reloadAll();
-		window->pushGui(ViewController::get());
+    mWindow.pushGui(ViewController::get());
     return;
   }
 }

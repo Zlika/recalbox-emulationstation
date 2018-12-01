@@ -168,17 +168,17 @@ bool verifyHomeFolderExists()
 }
 
 // Returns true if everything is OK, 
-bool loadSystemConfigFile(const char** errorString)
+bool loadSystemConfigFile(const char** errorString, IProgressBar* progressBarInterface)
 {
   *errorString = nullptr;
 
-  if (!SystemData::loadConfig())
-  {
-    LOG(LogError) << "Error while parsing systems configuration file!";
-    *errorString = "IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
-                   "VISIT EMULATIONSTATION.ORG FOR MORE INFORMATION.";
-    return false;
-  }
+	if(!SystemData::loadConfig(progressBarInterface))
+	{
+		LOG(LogError) << "Error while parsing systems configuration file!";
+		*errorString = "IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
+			"VISIT EMULATIONSTATION.ORG FOR MORE INFORMATION.";
+		return false;
+	}
 
   if (SystemData::sSystemVector.empty())
   {

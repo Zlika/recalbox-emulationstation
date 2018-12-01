@@ -489,7 +489,7 @@ bool SystemData::loadSystemList(Tree &document, XmlNodeCollisionMap &collisionMa
 }
 
 //creates systems from information located in a config file
-bool SystemData::loadConfig()
+bool SystemData::loadConfig(IProgressBar* progressBarInterface)
 {
   deleteSystems();
 

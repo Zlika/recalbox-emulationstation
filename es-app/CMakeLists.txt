@@ -38,6 +38,7 @@ set(ES_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiNetPlay.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiHashStart.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/GuiSplash.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/guis/IProgressBar.h
 
     # Scrapers
     ${CMAKE_CURRENT_SOURCE_DIR}/src/scrapers/Scraper.h

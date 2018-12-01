@@ -7,6 +7,7 @@
 #include "PlatformId.h"
 #include "ThemeData.h"
 #include "FileSorts.h"
+#include "guis/IProgressBar.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <RootFolders.h>
@@ -117,7 +118,7 @@ class SystemData
 	void launchGame(Window* window, FileData* game, const std::string& netplay, const std::string& core, const std::string& ip, const std::string& port);
 
 	static void deleteSystems();
-	static bool loadConfig(); //Load the system config file at getConfigPath(). Returns true if no errors were encountered. An example will be written if the file doesn't exist.
+	static bool loadConfig(IProgressBar* progressBarInterface); //Load the system config file at getConfigPath(). Returns true if no errors were encountered. An example will be written if the file doesn't exist.
 	static void writeExampleConfig(const std::string& path);
 
 	static std::vector<SystemData*> sSystemVector;

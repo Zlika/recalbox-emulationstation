@@ -76,6 +76,7 @@ public:
 	std::shared_ptr<IGameListView> getGameListView(SystemData* system);
 	std::shared_ptr<SystemView> getSystemListView();
 
+	IProgressBar* getSplashScreenProgressBarInterface() { return mState.viewing == ViewMode::Loading ? mSplash : nullptr; }
 private:
 	ViewController(Window* window);
 	static ViewController* sInstance;
