@@ -1074,7 +1074,7 @@ void GuiMenu::menuUISettings(){
         window->renderShutdownScreen();
         delete ViewController::get();
         SystemData::deleteSystems();
-        SystemData::loadConfig(nullptr);
+        SystemData::loadConfig(*window, nullptr);
         GuiComponent *gui;
         while ((gui = window->peekGui()) != nullptr) {
           window->removeGui(gui);

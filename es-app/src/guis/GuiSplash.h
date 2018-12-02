@@ -28,6 +28,8 @@ class GuiSplash : public GuiComponent, public IProgressBar
 
     void setMaximum(int maxvalue) override;
     void setProgression(int value) override;
+    void resetProgression() override;
+    void incProgression() override;
 
     /*
      * GuiComponent overrides

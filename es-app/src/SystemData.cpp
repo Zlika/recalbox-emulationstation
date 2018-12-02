@@ -333,7 +333,7 @@ std::vector<std::string> readList(const std::string &str, const char *delims = "
   return ret;
 }
 
-SystemData *createSystem(const SystemData::Tree &system)
+SystemData *createSystem(const SystemData::Tree &system, IProgressBar* progressBarInterface)
 {
   std::string name, fullname, path, cmd, themeFolder;
   try
@@ -389,16 +389,21 @@ SystemData *createSystem(const SystemData::Tree &system)
     boost::filesystem::path genericPath(path);
     path = genericPath.generic_string();
 
-    SystemData* newSys = SystemData::CreateRegularSystem(name, fullname,
-                                                         path, extensions,
-                                                         cmd, platformIds,
-                                                         themeFolder,
-                                                         system.get_child("emulators"));
-    if (newSys->getRootFolder()->countAll(false) == 0)
-    {
-      LOG(LogWarning) << "System \"" << name << "\" has no games! Ignoring it.";
-      delete newSys;
-      return nullptr;
+  SystemData* newSys = SystemData::CreateRegularSystem(name, fullname,
+                                                       path, extensions,
+                                                       cmd, platformIds,
+                                                       themeFolder,
+                                                       system.get_child("emulators"));
+
+  if (progressBarInterface != nullptr)
+    progressBarInterface->incProgression();
+
+  if (newSys->getRootFolder()->countAll(false) == 0)
+  {
+    LOG(LogWarning) << "System \"" << name << "\" has no games! Ignoring it.";
+    delete newSys;
+    return nullptr;
+
     }
     else
     {
@@ -489,7 +494,7 @@ bool SystemData::loadSystemList(Tree &document, XmlNodeCollisionMap &collisionMa
 }
 
 //creates systems from information located in a config file
-bool SystemData::loadConfig(IProgressBar* progressBarInterface)
+bool SystemData::loadConfig(Window& window, IProgressBar* progressBarInterface)
 {
   deleteSystems();
 
@@ -513,12 +518,19 @@ bool SystemData::loadConfig(IProgressBar* progressBarInterface)
     return false;
   }
 
+  // Reset progressbar
+  if (progressBarInterface != nullptr)
+  {
+    progressBarInterface->setMaximum(systemList.size());
+    progressBarInterface->resetProgression();
+  }
+
   // Change the 0 into 1 to enable non-threaded system loading
   // and thus enable debugging of the loading process
   #if 0
     for (const Tree &system : systemList)
     {
-      SystemData* sys = createSystem(system);
+      SystemData* sys = createSystem(system, progressBarInterface);
       if (sys != nullptr)
         sSystemVector.push_back(sys);
     }
@@ -535,16 +547,29 @@ bool SystemData::loadConfig(IProgressBar* progressBarInterface)
     for (const Tree &system : systemList)
     {
       LOG(LogInfo) << "creating thread for system " << system.get("name", "???");
-      typedef boost::packaged_task<SystemData *> task_t;
+      typedef boost::packaged_task<SystemData*> task_t;
       boost::shared_ptr<task_t> task = boost::make_shared<task_t>(
-        boost::bind(&createSystem, system));
-      boost::unique_future<SystemData *> fut = task->get_future();
+        boost::bind(&createSystem, system, progressBarInterface));
+      boost::unique_future<SystemData*> fut = task->get_future();
       pending_data.push_back(std::move(fut));
       ioService.post(boost::bind(&task_t::operator(), task));
     }
+
+    // Wait while refreshing
+    for(bool running = true; running; )
+    {
+      // Check all results
+      running = false; // Optimistic
+      for(auto& task : pending_data)
+        running |= !task.has_value(); // Stay running when tasks are still running
+
+      // force rendering
+      window.render();
+      Renderer::swapBuffers();
+    }
     boost::wait_for_all(pending_data.begin(), pending_data.end());
 
-    for (auto &pending : pending_data)
+    for (auto& pending : pending_data)
     {
       SystemData *result = pending.get();
       if (result != nullptr)

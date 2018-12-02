@@ -109,7 +109,7 @@ GuiGamelistOptions::GuiGamelistOptions(Window* window, SystemData* system)
 					window->renderShutdownScreen();
 					delete ViewController::get();
 					SystemData::deleteSystems();
-					SystemData::loadConfig(nullptr);
+					SystemData::loadConfig(*window, nullptr);
 					window->deleteAllGui();
 					ViewController::init(window);
 					ViewController::get()->reloadAll();
@@ -170,7 +170,7 @@ GuiGamelistOptions::~GuiGamelistOptions()
 			window->renderShutdownScreen();
 			delete ViewController::get();
 			SystemData::deleteSystems();
-			SystemData::loadConfig(nullptr);
+			SystemData::loadConfig(*window, nullptr);
 			GuiComponent *gui;
 			while ((gui = window->peekGui()) != nullptr) window->removeGui(gui);
 			ViewController::init(window);

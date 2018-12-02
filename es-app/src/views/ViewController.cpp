@@ -508,7 +508,7 @@ void ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
     mWindow.renderShutdownScreen();
 		delete ViewController::get();
 		SystemData::deleteSystems();
-		SystemData::loadConfig(nullptr);
+		SystemData::loadConfig(mWindow, nullptr);
 		GuiComponent *gui;
 		while ((gui = window->peekGui()) != nullptr)
 		{

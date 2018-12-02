@@ -168,11 +168,11 @@ bool verifyHomeFolderExists()
 }
 
 // Returns true if everything is OK, 
-bool loadSystemConfigFile(const char** errorString, IProgressBar* progressBarInterface)
+bool loadSystemConfigFile(const char** errorString, IProgressBar* progressBarInterface, Window& window)
 {
   *errorString = nullptr;
 
-	if(!SystemData::loadConfig(progressBarInterface))
+	if(!SystemData::loadConfig(window, progressBarInterface))
 	{
 		LOG(LogError) << "Error while parsing systems configuration file!";
 		*errorString = "IT LOOKS LIKE YOUR SYSTEMS CONFIGURATION FILE HAS NOT BEEN SET UP OR IS INVALID. YOU'LL NEED TO DO THIS BY HAND, UNFORTUNATELY.\n\n"
@@ -359,16 +359,16 @@ int main(int argc, char* argv[])
     playSound("loading");
 
     const char* errorMsg = nullptr;
-    if (!loadSystemConfigFile(&errorMsg))
-    {
-      // something went terribly wrong
+	if(!loadSystemConfigFile(&errorMsg, ViewController::get()->getSplashScreenProgressBarInterface(), window))
+	{
+		// something went terribly wrong
       if (errorMsg == nullptr)
-      {
-        LOG(LogError) << "Unknown error occured while parsing system config file.";
-        if (!scrape_cmdline)
-          Renderer::deinit();
-        return 1;
-      }
+		{
+			LOG(LogError) << "Unknown error occured while parsing system config file.";
+			if(!scrape_cmdline)
+				Renderer::deinit();
+			return 1;
+		}
 
       // we can't handle es_systems.cfg file problems inside ES itself, so display the error message then quit
       window.pushGui(new GuiMsgBox(&window, errorMsg, _("QUIT"), []
