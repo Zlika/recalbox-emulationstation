@@ -22,6 +22,7 @@ set(CORE_HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/RootFolders.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/MenuThemeData.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/StringUtils.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.h
 
 	# Animations
@@ -95,6 +96,7 @@ set(CORE_SOURCES
 	${CMAKE_CURRENT_SOURCE_DIR}/src/RootFolders.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/MenuThemeData.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Util.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/StringUtils.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Window.cpp
 
 	# Animations
