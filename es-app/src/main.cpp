@@ -305,9 +305,6 @@ int main(int argc, char* argv[])
   }
   #endif
 
-  // Randomize
-  std::srand(std::time(nullptr));
-
   try
   {
     //if ~/.emulationstation doesn't exist and cannot be created, bail
@@ -347,10 +344,10 @@ int main(int argc, char* argv[])
       LOG(LogInfo) << " ARB_texture_non_power_of_two: "
                    << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING");
 
-		//window.renderLoadingScreen();
-    window.render();
-  	Renderer::swapBuffers();
-	}
+      //window.renderLoadingScreen();
+      window.render();
+      Renderer::swapBuffers();
+    }
 
     // Initialize audio manager
     VolumeControl::getInstance()->init();
@@ -359,16 +356,16 @@ int main(int argc, char* argv[])
     playSound("loading");
 
     const char* errorMsg = nullptr;
-	if(!loadSystemConfigFile(&errorMsg, ViewController::get()->getSplashScreenProgressBarInterface(), window))
-	{
-		// something went terribly wrong
+    if(!loadSystemConfigFile(&errorMsg, ViewController::get()->getSplashScreenProgressBarInterface(), window))
+    {
+      // something went terribly wrong
       if (errorMsg == nullptr)
-		{
-			LOG(LogError) << "Unknown error occured while parsing system config file.";
-			if(!scrape_cmdline)
-				Renderer::deinit();
-			return 1;
-		}
+      {
+        LOG(LogError) << "Unknown error occured while parsing system config file.";
+        if(!scrape_cmdline)
+          Renderer::deinit();
+        return 1;
+      }
 
       // we can't handle es_systems.cfg file problems inside ES itself, so display the error message then quit
       window.pushGui(new GuiMsgBox(&window, errorMsg, _("QUIT"), []
@@ -416,7 +413,6 @@ int main(int argc, char* argv[])
       netPlayThread.Start();
     }*/
 
-
     //run the command line scraper then quit
     if (scrape_cmdline)
     {
@@ -425,11 +421,6 @@ int main(int argc, char* argv[])
 
     //dont generate joystick events while we're loading (hopefully fixes "automatically started emulator" bug)
     SDL_JoystickEventState(SDL_DISABLE);
-
-	// preload what we can right away instead of waiting for the user to select it
-	// this makes for no delays when accessing content, but a longer startup time
-	//ViewController::get()->preload();
-
 
     // preload what we can right away instead of waiting for the user to select it
     // this makes for no delays when accessing content, but a longer startup time
