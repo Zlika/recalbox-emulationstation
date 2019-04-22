@@ -384,7 +384,7 @@ bool ViewController::input(InputConfig* config, Input input)
 	/* if we receive a button pressure for a non configured joystick, suggest the joystick configuration */
 	if (!config->isConfigured() && (input.type == TYPE_BUTTON) )
 	{
-		mWindow->pushGui(new GuiDetectDevice(mWindow, false, nullptr));
+		mWindow.pushGui(new GuiDetectDevice(&mWindow, false, nullptr));
 		return true;
 	}
 
@@ -510,7 +510,7 @@ void ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 		SystemData::deleteSystems();
 		SystemData::loadConfig(mWindow, nullptr);
 		GuiComponent *gui;
-		while ((gui = window->peekGui()) != nullptr)
+		while ((gui = mWindow.peekGui()) != nullptr)
 		{
       mWindow.removeGui(gui);
 		}
