@@ -1602,19 +1602,8 @@ void GuiMenu::menuQuit(){
   auto s = new GuiSettings(mWindow, _("QUIT").c_str());
 
   Window *window = mWindow;
-
   ComponentListRow row;
-  row.makeAcceptInputHandler([window] {
-    window->pushGui(new GuiMsgBox(window, _("REALLY RESTART?"), _("YES"), [] {
-        if (RecalboxSystem::getInstance()->reboot() != 0) {
-          LOG(LogWarning) << "Restart terminated with non-zero result!";
-          }
-        }, _("NO"), nullptr));
-  });
-  row.addElement(std::make_shared<TextComponent>(window, _("RESTART SYSTEM"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
-  s->addRow(row);
-
-  row.elements.clear();
+  
   row.makeAcceptInputHandler([window] {
     window->pushGui(new GuiMsgBox(window, _("REALLY SHUTDOWN?"), _("YES"), [] {
         if (RecalboxSystem::getInstance()->shutdown() != 0) {
@@ -1635,6 +1624,18 @@ void GuiMenu::menuQuit(){
   });
   row.addElement(std::make_shared<TextComponent>(window, _("FAST SHUTDOWN SYSTEM"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
   s->addRow(row);
+  
+  row.elements.clear();
+  row.makeAcceptInputHandler([window] {
+    window->pushGui(new GuiMsgBox(window, _("REALLY RESTART?"), _("YES"), [] {
+        if (RecalboxSystem::getInstance()->reboot() != 0) {
+          LOG(LogWarning) << "Restart terminated with non-zero result!";
+          }
+        }, _("NO"), nullptr));
+  });
+  row.addElement(std::make_shared<TextComponent>(window, _("RESTART SYSTEM"), mMenuTheme->menuText.font, mMenuTheme->menuText.color), true);
+  s->addRow(row);
+  
   mWindow->pushGui(s);
 }
 
