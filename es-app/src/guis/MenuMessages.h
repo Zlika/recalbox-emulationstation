@@ -111,6 +111,7 @@ public:
 	static const char* ADVANCED_FRAMERATE_HELP_MSG;
 	static const char* ADVANCED_MANAGER_HELP_MSG;
 	static const char* ADVANCED_API_HELP_MSG;
+	static const char* ADVANCED_EXTEND_SD_CARD_LIFE_HELP_MSG;
 	static const char* ADVANCED_EMU_EMU_HELP_MSG;
 	static const char* ADVANCED_EMU_CORE_HELP_MSG;
 

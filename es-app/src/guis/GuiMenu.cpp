@@ -1595,6 +1595,13 @@ void GuiMenu::menuAdvancedSettings(){
     RecalboxConf::getInstance()->set("system.api.enabled", recalboxApi->getState() ? "1" : "0");
     RecalboxConf::getInstance()->saveRecalboxConf();;
   });
+  // Extend SD card life
+  auto extendSdCardLife = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::getInstance()->get("system.extendsdcardlife.enabled") == "1");
+  s->addWithLabel(extendSdCardLife, _("EXTEND SD CARD LIFE"), _(MenuMessages::ADVANCED_EXTEND_SD_CARD_LIFE_HELP_MSG));
+  s->addSaveFunc([extendSdCardLife] {
+    RecalboxConf::getInstance()->set("system.extendsdcardlife.enabled", extendSdCardLife->getState() ? "1" : "0");
+    RecalboxConf::getInstance()->saveRecalboxConf();;
+  });
   mWindow->pushGui(s);
 }
 

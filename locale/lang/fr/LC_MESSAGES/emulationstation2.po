@@ -366,6 +366,10 @@ msgid "SHOW FRAMERATE"
 msgstr "AFFICHER LE FRAMERATE"
 
 #: 
+msgid "EXTEND SD CARD LIFE"
+msgstr "AMÉLIORER LA DURÉE DE VIE DE LA CARTE SD"
+
+#: 
 msgid "ON-SCREEN HELP"
 msgstr "AFFICHAGE DE L'AIDE"
 
@@ -1383,6 +1387,12 @@ msgid "Enable or disable the recalbox API.\n"
 "The Recalbox API is a REST API exposing endpoints to control your recalbox via http requests."
 msgstr "Activez ou désactivez l'API Recalbox.\n"
 "L'API Recalbox est une API REST permettant de contrôler votre Recalbox avec des requêtes http."
+
+#: 
+msgid "Extends the life of the SD card.\n"
+"If this feature is enabled, Recalbox will limit writes on the media (log disabled, compressed games extracted in memory...)"
+msgstr "Améliorer la durée de vie de la carte SD.\n"
+"Si cette fonctionnalité est activée, Recalbox va limiter les écritures (désactivation des logs, extraction des jeux compressés en mémoire...)"
 
 #: 
 msgid "Select which emulator to use when you start a game for this system."

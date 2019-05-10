@@ -103,6 +103,7 @@ const char* MenuMessages::ADVANCED_OVERSCAN_HELP_MSG = "Enable or disable oversc
 const char* MenuMessages::ADVANCED_FRAMERATE_HELP_MSG = "Show the framerate in EmulationStation and in game.";
 const char* MenuMessages::ADVANCED_MANAGER_HELP_MSG = "Enable or disable the Recalbox Manager.\nThe Recalbox Manager is a web application available on http://recalbox , if you are on windows, http://recalbox.local , if you are on Linux or Mac, or directly with your recalbox IP : http://192.168.1.XX.\nYou can configure many options from within the manager, and even manage games, saves, and scrapes!";
 const char* MenuMessages::ADVANCED_API_HELP_MSG = "Enable or disable the recalbox API.\nThe Recalbox API is a REST API exposing endpoints to control your recalbox via http requests.";
+const char* MenuMessages::ADVANCED_EXTEND_SD_CARD_LIFE_HELP_MSG = "Extends the life of the SD card.\nIf this feature is enabled, Recalbox will limit writes on the media (log disabled, compressed games extracted in memory...)";
 const char* MenuMessages::ADVANCED_EMU_EMU_HELP_MSG = "Select which emulator to use when you start a game for this system.";
 const char* MenuMessages::ADVANCED_EMU_CORE_HELP_MSG = "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings.";
 
