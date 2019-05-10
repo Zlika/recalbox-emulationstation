@@ -4,6 +4,7 @@
 #include <map>
 #include <iostream>
 #include "platform.h"
+#include "RecalboxConf.h"
 #include "RootFolders.h"
 #include "datetime/DateTime.h"
 
@@ -20,7 +21,8 @@ static std::map<LogLevel, std::string> StringLevel =
 
 std::string Log::getLogPath()
 {
-	std::string home = RootFolders::DataRootFolder + "/system/.emulationstation/es_log.txt";
+	std::string home = (RecalboxConf::getInstance()->get("system.extendsdcardlife.enabled") == "1")
+	    ? "/dev/null" : RootFolders::DataRootFolder + "/system/.emulationstation/es_log.txt";
 	return home;
 }
 
