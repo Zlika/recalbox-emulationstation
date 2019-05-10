@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sys/statvfs.h>
 #include <sstream>
+#include "RecalboxConf.h"
 #include "Settings.h"
 #include "Log.h"
 
@@ -75,8 +76,15 @@ int runSystemCommand(const std::string& cmd_utf8)
   std::wstring wchar_str = converter.from_bytes(cmd_utf8);
   return _wsystem(wchar_str.c_str());
 #else
-  //return system((cmd_utf8 + " 2> /recalbox/share/system/logs/es_launch_stderr.log | head -300 > /recalbox/share/system/logs/es_launch_stdout.log").c_str());
-  int exitcode = system((cmd_utf8 + " > /recalbox/share/system/logs/es_launch_stdout.log 2> /recalbox/share/system/logs/es_launch_stderr.log").c_str());
+  int exitcode;
+  if (RecalboxConf::getInstance()->get("system.extendsdcardlife.enabled") == "1")
+  {
+    exitcode = system(cmd_utf8.c_str());
+  }
+  else
+  {
+    exitcode = system((cmd_utf8 + " > /recalbox/share/system/logs/es_launch_stdout.log 2> /recalbox/share/system/logs/es_launch_stderr.log").c_str());
+  }
   return exitcode;
 #endif
 }
