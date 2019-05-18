@@ -225,11 +225,16 @@ void SystemData::launchGame(Window* window, FileData* game, const std::string& n
   AudioManager::getInstance()->resumeMusic();
   window->normalizeNextUpdate();
 
-  //update number of times the game has been launched
-  game->Metadata().IncPlaycount();
+  // If extendsdcardlife option is enabled, do not update the playcount/last play time
+  // to avoid an update/write of the gamelist file
+  if (RecalboxConf::getInstance()->get("system.extendsdcardlife.enabled") != "1")
+  {
+    //update number of times the game has been launched
+    game->Metadata().IncPlaycount();
 
-  //update last played time
-  game->Metadata().SetLastplayedNow();
+    //update last played time
+    game->Metadata().SetLastplayedNow();
+  }
 }
 
 std::string SystemData::demoInitialize(Window& window)
