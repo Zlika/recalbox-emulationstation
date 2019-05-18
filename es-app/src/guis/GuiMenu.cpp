@@ -409,6 +409,11 @@ void GuiMenu::menuGameSettings(){
   autosave_enabled->setState(RecalboxConf::getInstance()->get("global.autosave") == "1");
   s->addWithLabel(autosave_enabled, _("AUTO SAVE/LOAD"), _(MenuMessages::GAME_AUTOSAVELOAD_HELP_MSG));
 
+  // press twice to quit emulator
+  auto quit_press_twice_enabled = std::make_shared<SwitchComponent>(mWindow);
+  quit_press_twice_enabled->setState(RecalboxConf::getInstance()->get("global.quit_press_twice") == "1");
+  s->addWithLabel(quit_press_twice_enabled, _("PRESS TWICE TO QUIT"), _(MenuMessages::GAME_PRESS_TWICE_QUIT_HELP_MSG));
+
   // Shaders preset
 
   auto shaders_choices = std::make_shared<OptionListComponent<std::string> >(mWindow,
