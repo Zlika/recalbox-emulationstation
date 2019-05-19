@@ -306,7 +306,7 @@ msgid "AUTO SAVE/LOAD"
 msgstr ""
 
 #: 
-msgid "PRESS TWICE TO QUIT"
+msgid "PRESS TWICE TO QUIT GAME"
 msgstr ""
 
 #: 
