@@ -11,7 +11,7 @@ boost::regex commentLine("^;(?<key>.*?)=(?<val>.*?)$");
 
 std::string recalboxConfFile = "/recalbox/share/system/recalbox.conf";
 std::string recalboxConfFileInit = "/recalbox/share_init/system/recalbox.conf";
-std::string recalboxConfFileTmp = "/recalbox/share/system/recalbox.conf.tmp";
+std::string recalboxConfFileTmp = "/tmp/recalbox.conf.tmp";
 
 RecalboxConf::RecalboxConf(bool mainFile) {
     loadRecalboxConf(mainFile);
