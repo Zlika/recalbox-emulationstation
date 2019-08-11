@@ -3,8 +3,8 @@ compiler: gcc
 os: linux
 dist: bionic
 
-before_install:
-  - sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev libboost-system-dev libboost-filesystem-dev libboost-date-time-dev libboost-locale-dev libboost-regex-dev libboost-thread-dev libfreeimage-dev libfreetype6-dev libeigen3-dev libcurl4-openssl-dev libasound2-dev libgl1-mesa-dev build-essential cmake fonts-droid
+#before_install:
+#  - sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev libboost-system-dev libboost-filesystem-dev libboost-date-time-dev libboost-locale-dev libboost-regex-dev libboost-thread-dev libfreeimage-dev libfreetype6-dev libeigen3-dev libcurl4-openssl-dev libasound2-dev libgl1-mesa-dev build-essential cmake fonts-droid
 
 before_script:
   - mkdir build
@@ -23,6 +23,25 @@ before_install:
   - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-certificates.crt
 
 addons:
+  apt:
+    packages:
+      - libsdl2-dev
+      - libsdl2-mixer-dev
+      - libboost-system-dev
+      - libboost-filesystem-dev
+      - libboost-date-time-dev
+      - libboost-locale-dev
+      - libboost-regex-dev
+      - libboost-thread-dev
+      - libfreeimage-dev
+      - libfreetype6-dev
+      - libeigen3-dev
+      - libcurl4-openssl-dev
+      - libasound2-dev
+      - libgl1-mesa-dev
+      - build-essential
+      - cmake
+      - fonts-droid
   coverity_scan:
     project:
       name: "Zlika/recalbox-emulationstation"
