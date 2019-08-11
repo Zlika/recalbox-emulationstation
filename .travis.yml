@@ -41,7 +41,6 @@ addons:
       - libgl1-mesa-dev
       - build-essential
       - cmake
-      - fonts-droid
   coverity_scan:
     project:
       name: "Zlika/recalbox-emulationstation"
