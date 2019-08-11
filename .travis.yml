@@ -42,6 +42,7 @@ addons:
       - build-essential
       - cmake
       - libavfilter-dev
+      - libavdevice-dev
   coverity_scan:
     project:
       name: "Zlika/recalbox-emulationstation"
