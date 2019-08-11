@@ -1,0 +1,32 @@
+language: c
+compiler: gcc
+os: linux
+dist: bionic
+
+before_install:
+  - sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev libboost-system-dev libboost-filesystem-dev libboost-date-time-dev libboost-locale-dev libboost-regex-dev libboost-thread-dev libfreeimage-dev libfreetype6-dev libeigen3-dev libcurl4-openssl-dev libasound2-dev libgl1-mesa-dev build-essential cmake fonts-droid
+
+before_script:
+  - mkdir build
+  - cd build
+  - cmake ..
+
+script: make
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "H6n7ejmJk0Wjt6Y2e9meqf1JzhfCOnhigjzhincQub3ytnkR+zJA+E/iEYdHeWSvbYDV6QdGmV9fTnTSaqfAmq//SXdz50HZKRQIN+l8ZaOo7zPbRAP9nSD6oNKuT4BR6AqdYZQi6OHj/rZ8mAyu7CQjKQfNfWuIT+Lou3OPNlEUaJTMXYOWsB+B7TuxtiF8lkf9aY4JcS7jFs221N3YXRxKhH/nd/lXmO9GHrL6CRpB+WSRDJmy0k6K9ooQnZh1iHQ3zwPPaDrmi7X4j3xQktPxB2CnUOV1StV2Zy1FMIT7rA3tjvVNprcoWvtTngys/x1wQMHnpJJAwnHxEyxF0HbFdV/Ee3zdh1UvNfxxfwVHWKzQf9gmD3qjzhnWO540zuPdTIxeDlKhjCZ1+DjJD8shzOnIvUTrSNKxKCn/GBgPyQ9I5RgqpcYgk+7Na3boK6cdMkyJoSGGyrPM7IKppt4R9cZ7TOvw2DoMBiSZysXR/oRnnH2OIX2P+J9FGmc3/H+V+/RXlfGfvF/yc3Zn2R+78Xf2tq6fW5GG99JzlXtw3RSBd4tcolZp8hdN+kFIp+Ddf67Q9X0QNpX8qliMWrjWmQyArVe7BCx+JPQZrQC5nslHuggbJgwwVOoH48FAlIjDkYoVB4erOULuz5u7tMGG9p2GAolMB+w81JvVKN8="
+
+before_install:
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-certificates.crt
+
+addons:
+  coverity_scan:
+    project:
+      name: "Zlika/recalbox-emulationstation"
+      description: ""
+    notification_email: h9k2ypirwr00bw7@jetable.org
+    build_command: "make"
+    branch_pattern: coverity_scan
